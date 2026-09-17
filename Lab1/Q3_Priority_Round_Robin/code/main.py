@@ -5,6 +5,9 @@ processes = [
     {"pid": "P4", "arrival": 5, "burst": 4, "priority": 2},
 ]
 
+PRIORITY_CONVENTION = "Lower number = higher priority"
+TIME_QUANTUM = 3
+
 
 def priority_scheduling(processes):
     current_time = 0
@@ -30,6 +33,9 @@ def priority_scheduling(processes):
 
 
 def round_robin(processes, quantum):
+    if quantum <= 0:
+        raise ValueError("time quantum must be positive")
+
     remaining = {p["pid"]: p["burst"] for p in processes}
     order = sorted(processes, key=lambda p: p["arrival"])
 
@@ -38,7 +44,14 @@ def round_robin(processes, quantum):
     i = 1
     result = []
 
-    while queue:
+    while queue or i < len(order):
+        if not queue:
+            next_arrival = order[i]["arrival"]
+            result.append({"pid": "Idle", "start": current_time, "end": next_arrival})
+            current_time = next_arrival
+            queue.append(order[i]["pid"])
+            i += 1
+
         pid = queue.pop(0)
         run_time = min(quantum, remaining[pid])
         start = current_time
@@ -57,8 +70,22 @@ def round_robin(processes, quantum):
     return result
 
 
-print("PRIORITY SCHEDULING")
-print(priority_scheduling(processes))
+def show_result(title, intervals):
+    print("\n" + title)
+    print("Process Start End")
 
-print("\nROUND ROBIN SCHEDULING (quantum = 3)")
-print(round_robin(processes, quantum=3))
+    for slot in intervals:
+        print(f'{slot["pid"]:<9} {slot["start"]:<7} {slot["end"]}')
+
+
+print("INPUT PROCESSES")
+print("PID AT BT Priority")
+
+for p in processes:
+    print(f'{p["pid"]:<5} {p["arrival"]:<4} {p["burst"]:<4}{p["priority"]}')
+
+print(f"\nPriority convention: {PRIORITY_CONVENTION}")
+print(f"Round Robin time quantum: {TIME_QUANTUM}")
+
+show_result("PRIORITY SCHEDULING (non-preemptive)", priority_scheduling(processes))
+show_result("ROUND ROBIN SCHEDULING", round_robin(processes, TIME_QUANTUM))
