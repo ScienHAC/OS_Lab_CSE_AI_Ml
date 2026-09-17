@@ -44,20 +44,20 @@ def error_handling_demo():
         print(f"Handled expected error opening invalid path: {e}")
 
 
-print("1-4. PROCESS CREATION, PID/PPID, WAIT, EXEC")
+print("PROCESS CREATION (fork + exec)")
 process_creation_demo()
 
-print("\n5. FILE CREATE / WRITE / READ / CLOSE")
+print("\nFILE OPERATIONS")
 file_operations_demo()
 
-print("\n6. DEVICE / PROC INTERFACE")
+print("\nDEVICE AND PROC INTERFACE")
 device_interface_demo()
 
-print("\n7. ERROR HANDLING")
+print("\nERROR HANDLING")
 error_handling_demo()
 
-print("\n8. SUMMARY")
-print("Process creation + PID/PPID + wait + exec: done")
+print("\nSUMMARY")
+print("Process creation, wait and exec: done")
 print("File create/write/read/close: done")
 print("Device (/dev/null) and /proc interface access: done")
 print("Invalid path handled with a clear error message: done")
