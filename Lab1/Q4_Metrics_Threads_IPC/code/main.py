@@ -50,3 +50,23 @@ def show_gantt_chart():
     print(" | ".join(str(t) for t in times))
 
 show_gantt_chart()
+print("="*50)
+from threading import Thread, current_thread
+def thread_task(name):
+    print(name, "running | thread ID.",current_thread().ident)
+
+def thread_demo():
+    print("\n---Threading Demo---")
+
+    t1 = Thread(target=thread_task, args=("Thread 1",))
+    t2 = Thread(target=thread_task, args=("Thread 2",))
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
+
+    print("Both threads completed.")
+
+thread_demo()
