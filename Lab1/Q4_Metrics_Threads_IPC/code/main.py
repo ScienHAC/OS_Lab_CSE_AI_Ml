@@ -37,11 +37,11 @@ def calculate_metrics():
         print(f"{p['pid']} {p['arrival']} {p['burst']} {completion} {tat} {wt} {rt}")
 
 n = len(processes)
-calculate_metrics()
+# calculate_metrics()
 
-print(f"\nAverage TAT: {tat_total/n:.2f}")
-print(f"Average WT: {wt_total/n:.2f}")
-print(f"Average RT: {rt_total/n:.2f}")
+# print(f"\nAverage TAT: {tat_total/n:.2f}")
+# print(f"Average WT: {wt_total/n:.2f}")
+# print(f"Average RT: {rt_total/n:.2f}")
 
 def show_gantt_chart():
     print("\n---Round Robin Gantt Chart---")
@@ -49,7 +49,7 @@ def show_gantt_chart():
     times = [Intervals[0][1]] + [interval[2] for interval in Intervals]
     print(" | ".join(str(t) for t in times))
 
-show_gantt_chart()
+# show_gantt_chart()
 print("="*50)
 from threading import Thread, current_thread
 def thread_task(name):
@@ -69,4 +69,46 @@ def thread_demo():
 
     print("Both threads completed.")
 
-thread_demo()
+# thread_demo()
+
+from multiprocessing import Pipe, Process
+
+def child_pipe(conn):
+    conn.send("Hello Parent - message from Child")
+    conn.close()
+
+def pipe_demo():
+    print("\n--PIPE IPC DEMO--")
+    parent_conn, child_conn = Pipe()
+    child = Process(target=child_pipe, args=(child_conn,))
+    child.start()
+    message = parent_conn.recv()
+    child.join()
+    print("Parent received:", message)
+
+# pipe_demo()
+
+from multiprocessing import Value
+
+def update_shared(value):
+    value.value += 10
+
+def shared_memory_demo():
+    print("\n---Shared Memory Demo---")
+    shared_value = Value('i', 5)  # 'i' indicates a signed integer
+    print("Before Child Process:", shared_value.value)
+    child = Process(target=update_shared, args=(shared_value,))
+    child.start()
+    child.join()
+    print("After Child Process:", shared_value.value)
+
+# shared_memory_demo()
+if __name__ == "__main__":
+    calculate_metrics()
+    print(f"\nAverage TAT: {tat_total/n:.2f}")
+    print(f"Average WT: {wt_total/n:.2f}")
+    print(f"Average RT: {rt_total/n:.2f}")
+    show_gantt_chart()
+    thread_demo()
+    pipe_demo()
+    shared_memory_demo()
