@@ -46,5 +46,7 @@ print(f"Average RT: {rt_total/n:.2f}")
 def show_gantt_chart():
     print("\n---Round Robin Gantt Chart---")
     print(" | ".join(pip for pip, _, _ in Intervals))
-    times = [intervals[0][1]] + [interval[2] for interval in Intervals]
+    times = [Intervals[0][1]] + [interval[2] for interval in Intervals]
     print(" | ".join(str(t) for t in times))
+
+show_gantt_chart()
