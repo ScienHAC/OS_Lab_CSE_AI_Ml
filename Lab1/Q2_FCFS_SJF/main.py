@@ -84,3 +84,4 @@ for p in processes:
 
 show_result("FCFS SCHEDULING", fcfs(processes))
 show_result("SJF SCHEDULING", sjf(processes))
+
