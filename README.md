@@ -32,9 +32,5 @@ runs on Windows with `python` in place of `python3`. No external packages
 are required.
 
 Lab2 Q1 follows the classroom program with the practical's 2, 3 and 1 second
-waits. Run its checks with:
-
-```bash
-python3 -m unittest discover -s Lab2/Q1_Thread_Models -p "test_*.py"
-```
+waits.
 
